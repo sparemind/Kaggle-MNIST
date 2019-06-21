@@ -5,8 +5,6 @@
 from time import time
 import numpy as np
 import pandas as pd
-from sklearn.linear_model import LogisticRegression
-from joblib import dump, load
 
 
 # Files containing training and testing data
@@ -31,10 +29,12 @@ def accuracy(expected, predicted):
     return np.mean(expected == predicted)
 
 # Splits the data into a training set and validation set and returns both as
-# features and labels.
-def split_data(raw_data):
+# features and labels. Can provide an optional seed that will be used when
+# randomly permuting the data.
+def split_data(raw_data, seed=None):
     N = raw_data.shape[0]
     # Randomize and create final validation and training sets
+    np.random.seed(seed)
     index_permutation = np.random.permutation(N)
     raw_data = raw_data[index_permutation,:]
     val_index = (int) (N * VAL_SIZE)
