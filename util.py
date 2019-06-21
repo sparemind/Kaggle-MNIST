@@ -5,6 +5,7 @@
 from time import time
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 
 # Files containing training and testing data
@@ -32,17 +33,7 @@ def accuracy(expected, predicted):
 # features and labels. Can provide an optional seed that will be used when
 # randomly permuting the data.
 def split_data(raw_data, seed=None):
-    N = raw_data.shape[0]
-    # Randomize and create final validation and training sets
-    np.random.seed(seed)
-    index_permutation = np.random.permutation(N)
-    raw_data = raw_data[index_permutation,:]
-    val_index = (int) (N * VAL_SIZE)
-
-    labels_val = raw_data[:val_index,0]
-    x_val = raw_data[:val_index,1:]
-    labels_train = raw_data[val_index:,0]
-    x_train = raw_data[val_index:,1:]
-
-    return x_train, labels_train, x_val, labels_val
+    x = raw_data[:,1:]
+    y = raw_data[:,0]
+    return train_test_split(x, y, test_size=VAL_SIZE, random_state=1234)
 

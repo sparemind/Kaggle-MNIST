@@ -8,7 +8,9 @@ from joblib import dump, load
 
 # Load data and get training and validation sets
 raw_train = load_csv(TRAIN_DATA)
-x_train, labels_train, x_val, labels_val = split_data(raw_train, 1234)
+x_train, x_val, labels_train, labels_val = split_data(raw_train, 1234)
+x_train = x_train / 255.0
+x_val = x_val / 255.0
 print(f'Training set size:   {x_train.shape[0]}')
 print(f'Validation set size: {x_val.shape[0]}')
 
