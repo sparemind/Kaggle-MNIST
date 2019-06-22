@@ -16,11 +16,14 @@ VAL_SIZE = 0.2
 
 # Accepts the filepath to a .csv file whose contents are then loaded and
 # returned as a NumPy array. The filename and load time are also logged to 
-# the console.
-def load_csv(filepath):
+# the console. An optional argument specifies whether the data should be
+# returned as a NumPy array or a Pandas dataframe.
+def load_csv(filepath, as_np=True):
     start = time()
     print(f'Loading {filepath}...', end='', flush=True)
-    data = pd.io.parsers.read_csv(filepath).values
+    data = pd.io.parsers.read_csv(filepath)
+    if(as_np):
+        data = data.values
     load_time = time() - start
     print(f'DONE ({load_time:.2f}s)')
     return data
@@ -35,5 +38,5 @@ def accuracy(expected, predicted):
 def split_data(raw_data, seed=None):
     x = raw_data[:,1:]
     y = raw_data[:,0]
-    return train_test_split(x, y, test_size=VAL_SIZE, random_state=1234)
+    return train_test_split(x, y, test_size=VAL_SIZE, random_state=seed)
 
